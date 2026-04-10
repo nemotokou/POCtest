@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>test_topOnSWA</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left {
+      flex: 1;
+      padding: 10px;
+      border-right: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .right {
+      flex: 3;
+      height: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- 左ペイン -->
+    <div class="left">
+      <h1>このページはStatic web appsに格納されています。</h1>
+      <h1>Logic appsには格納されていません。</h1>
+
+      <button onclick="loadPage('https://happy-sky-0167e2700.7.azurestaticapps.net/onSWA.html')">
+        SWA上のページを表示
+      </button>
+
+      <button onclick="loadPage('https://prod-24.northcentralus.logic.azure.com/workflows/ea8eaef3d45943b0b37639396165350e/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=hRkVYbw9ZSbobqr5DRXgSkKnF1MKaC1n1TgD2Kk6v2s&page=3')">
+        Logic apps上のページを表示
+      </button>
+    </div>
+
+    <!-- 右ペイン -->
+    <div class="right">
+      <iframe id="viewer"
+        src="https://happy-sky-0167e2700.7.azurestaticapps.net/onSWA.html">
+      </iframe>
+    </div>
+  </div>
+
+  <script>
+    function loadPage(url) {
+      document.getElementById("viewer").src = url;
+    }
+  </script>
+</body>
+</html>
