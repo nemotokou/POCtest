@@ -1,0 +1,76 @@
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>申請進捗状況（SWA⇔GitHubテスト）</title>
+    <style>
+        :root { --primary-color: #0078d4; --success-color: #107c10; --border-color: #edebe9; }
+        body { font-family: "Segoe UI", sans-serif; background: #f3f2f1; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 4px; }
+        
+        /* 進捗ステップ（プログレスバー）のスタイル */
+        .progress-track { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
+        .progress-track::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: #c8c6c4; z-index: 1; }
+        
+        .step { position: relative; z-index: 2; text-align: center; width: 25%; }
+        .step-icon { width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 2px solid #c8c6c4; margin: 0 auto 10px; line-height: 30px; font-weight: bold; }
+        
+        /* 完了済みステップの色 */
+        .step.active .step-icon { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .step.complete .step-icon { background: var(--success-color); color: white; border-color: var(--success-color); }
+        .step.complete::after { content: '✔'; }
+        
+        .step-label { font-size: 0.8rem; font-weight: bold; color: #605e5c; }
+        .step.active .step-label { color: var(--primary-color); }
+
+        .detail-box { border: 1px solid var(--border-color); padding: 15px; border-radius: 4px; }
+        .history-item { padding: 10px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+        .history-item:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>申請進捗状況</h1>
+    <p style="margin-bottom: 30px;">受付番号：WF-2026-0001</p>
+
+    <div class="progress-track">
+        <div class="step complete">
+            <div class="step-icon"></div>
+            <div class="step-label">申請済み</div>
+        </div>
+        <div class="step active">
+            <div class="step-icon">2</div>
+            <div class="step-label">リーダ承認中</div>
+        </div>
+        <div class="step">
+            <div class="step-icon">3</div>
+            <div class="step-label">幹部承認</div>
+        </div>
+        <div class="step">
+            <div class="step-icon">4</div>
+            <div class="step-label">完了</div>
+        </div>
+    </div>
+
+    <div class="detail-box">
+        <h3>承認履歴</h3>
+        <div class="history-item">
+            <strong>2026/04/08 10:00</strong> - 申請が受理されました（自動受付）
+        </div>
+        <div class="history-item">
+            <strong>2026/04/08 10:05</strong> - 一次承認依頼を送信しました（宛先：高島リーダ）
+        </div>
+        <div class="history-item" style="color: #a4262c;">
+            現在、高島リーダの承認を待機しています。
+        </div>
+    </div>
+</div>
+
+
+    <a href="?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=9e5nbUCg232l3NDf-8fH1yl-KN5RR30c91XOBOQOsWo&page=1">
+      <button>入力画面へ戻る</button>
+    </a>
+
+
+</body>
+</html>
