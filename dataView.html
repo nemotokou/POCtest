@@ -75,11 +75,11 @@ async function loadData() {
     data.forEach(item => {
       tbody.innerHTML += `
         <tr>
-          <td>${item.applicantName || ""}</td>
-          <td>${item.email || ""}</td>
-          <td>${item.department || ""}</td>
-          <td>${item.category || ""}</td>
-          <td>${item.projectName || ""}</td>
+          <td>${item.SHINSEISYAMEI || ""}</td>
+          <td>${item.MAILADDRESS || ""}</td>
+          <td>${item.BUSHOMEI || ""}</td>
+          <td>${item.KUBUN || ""}</td>
+          <td>${item.PROJECT || ""}</td>
         </tr>
       `;
     });
