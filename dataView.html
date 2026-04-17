@@ -59,28 +59,34 @@ color: white;
 <script>
 async function loadData() {
   try {
-    const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0");
+    const res = await fetch("Logic App URL", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({})
+    });
 
     const data = await res.json();
 
     const tbody = document.querySelector("#dataTable tbody");
+    tbody.innerHTML = "";
 
     data.forEach(item => {
-      const row = `
+      tbody.innerHTML += `
         <tr>
-          <td>${item.applicantName || ''}</td>
-          <td>${item.email || ''}</td>
-          <td>${item.department || ''}</td>
-          <td>${item.category || ''}</td>
-          <td>${item.projectName || ''}</td>
+          <td>${item.applicantName || ""}</td>
+          <td>${item.email || ""}</td>
+          <td>${item.department || ""}</td>
+          <td>${item.category || ""}</td>
+          <td>${item.projectName || ""}</td>
         </tr>
       `;
-      tbody.innerHTML += row;
     });
 
   } catch (err) {
     console.error(err);
-    alert("データ取得エラーなの…");
+    alert("取得エラーなの…💦");
   }
 }
 
