@@ -1,0 +1,91 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>申請データ一覧</title>
+<style>
+body {
+  font-family: "Segoe UI", "Meiryo", sans-serif;
+  background-color: #f3f2f1;
+  padding: 20px;
+}
+
+.container {
+max-width: 1000px;
+margin: auto;
+background: #fff;
+padding: 20px;
+}
+
+h1 {
+margin-bottom: 20px;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+}
+
+th, td {
+border: 1px solid #ccc;
+padding: 10px;
+text-align: left;
+}
+
+th {
+background-color: #0078d4;
+color: white;
+} </style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>申請データ一覧</h1>
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>申請者名</th>
+        <th>メール</th>
+        <th>部署</th>
+        <th>区分</th>
+        <th>プロジェクト</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+async function loadData() {
+  try {
+    const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0");
+
+    const data = await res.json();
+
+    const tbody = document.querySelector("#dataTable tbody");
+
+    data.forEach(item => {
+      const row = `
+        <tr>
+          <td>${item.applicantName || ''}</td>
+          <td>${item.email || ''}</td>
+          <td>${item.department || ''}</td>
+          <td>${item.category || ''}</td>
+          <td>${item.projectName || ''}</td>
+        </tr>
+      `;
+      tbody.innerHTML += row;
+    });
+
+  } catch (err) {
+    console.error(err);
+    alert("データ取得エラーなの…");
+  }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
