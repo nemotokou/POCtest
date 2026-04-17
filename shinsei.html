@@ -177,7 +177,7 @@ document.getElementById("mainForm").addEventListener("submit", async function(e)
     });
 
     if (res.ok) {
-      alert("申請しました");
+      window.location.href = "result.html";
     } else {
       alert("申請エラー");
     }
