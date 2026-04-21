@@ -5,28 +5,84 @@
 <title>申請詳細</title>
 
 <style>
-body {
-  font-family: "Segoe UI", "Meiryo", sans-serif;
-  background-color: #f3f2f1;
-  padding: 20px;
+:root { 
+  --primary-color: #0078d4; 
+  --success-color: #107c10; 
+  --bg-color: #f3f2f1; 
+  --border-color: #edebe9; 
 }
 
-.container {
-  max-width: 800px;
-  margin: auto;
-  background: #fff;
-  padding: 20px;
+body { 
+  font-family: "Segoe UI", "Meiryo", sans-serif; 
+  background-color: var(--bg-color); 
+  padding: 20px; 
+  color: #323130; 
 }
 
-h1 {
-  margin-bottom: 20px;
+.container { 
+  max-width: 850px; 
+  margin: 0 auto; 
+  background: #fff; 
+  padding: 30px; 
+  border-radius: 4px; 
 }
 
-.item {
-  margin-bottom: 10px;
+h1 { 
+  border-bottom: 2px solid var(--primary-color); 
+  padding-bottom: 10px; 
+  font-size: 1.4rem; 
+  margin-bottom: 25px; 
 }
-.label {
+
+/* 🔥 ここが重要：shinseiのconfirm-table風に統一 */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.detail-table th {
+  width: 30%;
+  text-align: left;
+  padding: 12px;
+  background: #faf9f8;
+  border: 1px solid var(--border-color);
   font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.detail-table td {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  font-size: 0.95rem;
+}
+
+/* ボタンエリア（shinseiと統一） */
+.btn-area {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.btn-back {
+  background-color: #f3f2f1;
+  color: #323130;
+  border: 1px solid #8a8886;
+}
+
+.btn:hover { 
+  opacity: 0.8; 
 }
 </style>
 </head>
@@ -35,7 +91,12 @@ h1 {
 
 <div class="container">
   <h1>申請詳細</h1>
+
   <div id="detail">読み込み中...</div>
+
+  <div class="btn-area">
+    <button class="btn btn-back" onclick="history.back()">← 一覧に戻る</button>
+  </div>
 </div>
 
 <script>
@@ -87,30 +148,32 @@ async function loadDetail() {
       body: JSON.stringify({ no: no })
     });
 
-  const data = await res.json();
-  const item = data[0];
+    const data = await res.json();
+    const item = data[0];
 
-  if (!item) {
-    document.getElementById("detail").innerHTML = "データが見つからないよ〜";
-    return;
-  }
+    if (!item) {
+      document.getElementById("detail").innerHTML = "データが見つからないよ〜";
+      return;
+    }
 
     document.getElementById("detail").innerHTML = `
-      <div class="item"><span class="label">申請番号：</span>${item.SHINSEIBANGOU}</div>
-      <div class="item"><span class="label">申請者名：</span>${item.SHINSEISYAMEI}</div>
-      <div class="item"><span class="label">メール：</span>${item.MAILADDRESS}</div>
-      <div class="item"><span class="label">部署：</span>${item.BUSHOMEI}</div>
-      <div class="item"><span class="label">区分：</span>${convertKubun(item.KUBUN)}</div>
-      <div class="item"><span class="label">プロジェクト：</span>${item.PROJECT}</div>
-      <div class="item"><span class="label">一次請負：</span>${item.ICHIJIUKE}</div>
-      <div class="item"><span class="label">電話番号：</span>${item.RENRAKUSAKI}</div>
-      <div class="item"><span class="label">承認者(リーダー)：</span>${item.SYOUNINLEADER}</div>
-      <div class="item"><span class="label">承認者(幹部)：</span>${item.SYOUNINKANBU}</div>
-      <div class="item"><span class="label">連絡事項：</span>${item.RENRAKUJIKOU || ""}</div>
-      <div class="item"><span class="label">添付ファイル：</span>${item.TEMPFILE || ""}</div>
-      <div class="item"><span class="label">状態：</span>${convertJokyoFlag(item.JOKYOFLAG)}</div>
-      <div class="item"><span class="label">申請日時：</span>${formatDate(item.SINSEINICHIJI)}</div>
-      <div class="item"><span class="label">更新日時：</span>${formatDate(item.KOUSHINNICHIJI)}</div>
+      <table class="detail-table">
+        <tr><th>申請番号</th><td>${item.SHINSEIBANGOU}</td></tr>
+        <tr><th>申請者名</th><td>${item.SHINSEISYAMEI}</td></tr>
+        <tr><th>メール</th><td>${item.MAILADDRESS}</td></tr>
+        <tr><th>部署</th><td>${item.BUSHOMEI}</td></tr>
+        <tr><th>区分</th><td>${convertKubun(item.KUBUN)}</td></tr>
+        <tr><th>プロジェクト</th><td>${item.PROJECT}</td></tr>
+        <tr><th>一次請負</th><td>${item.ICHIJIUKE || ""}</td></tr>
+        <tr><th>電話番号</th><td>${item.RENRAKUSAKI}</td></tr>
+        <tr><th>承認者(リーダー)</th><td>${item.SYOUNINLEADER}</td></tr>
+        <tr><th>承認者(幹部)</th><td>${item.SYOUNINKANBU}</td></tr>
+        <tr><th>連絡事項</th><td>${item.RENRAKUJIKOU || ""}</td></tr>
+        <tr><th>添付ファイル</th><td>${item.TEMPFILE || ""}</td></tr>
+        <tr><th>状態</th><td>${convertJokyoFlag(item.JOKYOFLAG)}</td></tr>
+        <tr><th>申請日時</th><td>${formatDate(item.SINSEINICHIJI)}</td></tr>
+        <tr><th>更新日時</th><td>${formatDate(item.KOUSHINNICHIJI)}</td></tr>
+      </table>
     `;
 
   } catch (err) {
