@@ -138,30 +138,38 @@ window.addEventListener("load", () => {
 // 確認画面
 function toConfirmMode() {
   const form = document.getElementById('mainForm');
+
   if (!form.reportValidity()) return;
 
-  const fileInput = document.getElementById('fileInput');
-  if (fileInput) {
-    document.getElementById('fileNameInput').value =
-      fileInput.files.length > 0 ? fileInput.files[0].name : 'なし';
-  }
-
-  const displayArea = document.getElementById('confirmDataDisplay');
   const elements = form.querySelectorAll('input, select, textarea');
 
   let html = '<table class="confirm-table">';
+
   elements.forEach(el => {
-    if (el.type === 'file') return;
     const label = el.getAttribute('data-label') || el.name;
     const value = el.value || 'なし';
     html += `<tr><th>${label}</th><td>${value.replace(/\n/g,'<br>')}</td></tr>`;
   });
+
   html += '</table>';
+
+  // ★ここも存在チェック入れる（安全化）
+  const displayArea = document.getElementById('confirmDataDisplay');
+  if (!displayArea) {
+    console.error("confirmDataDisplay が存在しない");
+    return;
+  }
 
   displayArea.innerHTML = html;
 
   document.getElementById('inputSection').style.display = 'none';
-  document.getElementById('confirmSection').style.display = 'block';
+
+  const confirmSection = document.getElementById('confirmSection');
+  if (confirmSection) {
+    confirmSection.style.display = 'block';
+  } else {
+    console.error("confirmSection が存在しない");
+  }
 }
 
 // 戻る
