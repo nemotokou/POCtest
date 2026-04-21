@@ -193,11 +193,25 @@ document.getElementById("mainForm").addEventListener("submit", async function(e)
       body: JSON.stringify(data)
     });
 
-    if (res.ok) {
-      window.location.href = "result.html";
-    } else {
-      alert("申請エラー");
-    }
+
+const raw = await res.text();
+
+let result;
+
+try {
+  result = JSON.parse(raw);
+} catch (e) {
+  window.location.href = "result.html?status=error";
+  return;
+}
+
+if (result?.status === "success") {
+  window.location.href = "result.html?status=success";
+} else {
+  window.location.href = "result.html?status=error";
+}
+
+
   } catch (err) {
     console.error(err);
     alert("通信エラー");
