@@ -79,7 +79,7 @@ async function loadDetail() {
   }
 
   try {
-    const res = await fetch("★LogicAppのURL（1件取得版）", {
+    const res = await fetch("https://prod-27.northcentralus.logic.azure.com:443/workflows/2b63d280b7f744ecbfc59d115bc5e73d/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=X6dMCvTZslrBF6AXS7YWY2LfQ0Anr_3ly_gKnrcB6Zk", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
