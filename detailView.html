@@ -19,7 +19,7 @@ function getQueryParam(name) {
 async function loadDetail() {
   const no = getQueryParam("no");
 
-  const res = await fetch("★同じLogicAppのURL", {
+  const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
