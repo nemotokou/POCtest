@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>リーダー承認待ちデータ一覧</title>
+<title>幹部承認待ちデータ一覧</title>
 
 <style>
 body {
@@ -44,7 +44,7 @@ th {
 <body>
 
 <div class="container">
-  <h1>リーダー承認待ちデータ一覧</h1>
+  <h1>幹部承認待ちデータ一覧</h1>
 
   <table id="dataTable">
     <thead>
@@ -102,7 +102,7 @@ function convertJokyoFlag(j) {
 
 async function loadData() {
   try {
-    const res = await fetch("https://prod-16.northcentralus.logic.azure.com:443/workflows/34161efc3df940d1a375e3115ea6b8f6/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=8qL8ohTsAXdgynQD121nqwNN_A7CMyJ9K8PbZWKOzG4", {
+    const res = await fetch("https://prod-23.northcentralus.logic.azure.com:443/workflows/f8540ec8707d466891d9f01c3dd1172c/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=MRCY7wA115B1IAjAZODCRxPDbS9w0K2evhbU5hMB_vU", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
