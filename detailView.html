@@ -87,12 +87,13 @@ async function loadDetail() {
       body: JSON.stringify({ no: no })
     });
 
-    const item = await res.json();
+  const data = await res.json();
+  const item = data[0];
 
-    if (!item) {
-      document.getElementById("detail").innerHTML = "データが見つからないよ〜";
-      return;
-    }
+  if (!item) {
+    document.getElementById("detail").innerHTML = "データが見つからないよ〜";
+    return;
+  }
 
     document.getElementById("detail").innerHTML = `
       <div class="item"><span class="label">申請番号：</span>${item.SHINSEIBANGOU}</div>
