@@ -3,7 +3,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ワークフロー申請フォーム</title>
-
 <style>
 :root { --primary-color: #0078d4; --success-color: #107c10; --bg-color: #f3f2f1; --border-color: #edebe9; }
 body { font-family: "Segoe UI", "Meiryo", sans-serif; background-color: var(--bg-color); padding: 20px; color: #323130; }
@@ -27,160 +26,154 @@ input, select, textarea { width: 100%; padding: 10px; border: 1px solid #8a8886;
 .btn:disabled { background-color: #c8c6c4; cursor: not-allowed; }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
   <!-- 入力画面 -->
   <div id="inputSection">
     <h1>ワークフロー申請（入力）</h1>
-
     <form id="mainForm">
 
-      <div class="grid">
-        <div class="form-group">
-          <label>申請番号（自動採番）</label>
-          <input type="text" id="shinseiNoPreview" disabled value="自動採番されます">
-        </div>
-
-        <div class="form-group">
-          <label>申請日時（自動入力）</label>
-          <input type="text" id="datePreview" disabled>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="form-group">
-          <label class="required">申請者名</label>
-          <input type="text" name="applicantName" required>
-        </div>
-
-        <div class="form-group">
-          <label class="required">メールアドレス</label>
-          <input type="email" name="email" required>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="form-group">
-          <label class="required">所属部署名</label>
-          <input type="text" name="department" required>
-        </div>
-
-        <div class="form-group">
-          <label class="required">申請区分</label>
-          <select name="category" required>
-            <option value="">選択してください</option>
-            <option value="1">新規案件</option>
-            <option value="2">変更申請</option>
-            <option value="3">費用精算</option>
-          </select>
-        </div>
-      </div>
-
+    <div class="grid">
       <div class="form-group">
-        <label class="required">プロジェクト名</label>
-        <input type="text" name="projectName" required>
+        <label>申請番号（自動採番）</label>
+        <input type="text" id="shinseiNoPreview" disabled value="自動採番されます">
       </div>
+      <div class="form-group">
+        <label>申請日時（自動入力）</label>
+        <input type="text" id="datePreview" disabled>
+      </div>
+    </div>
 
       <div class="grid">
         <div class="form-group">
-          <label>一次請負会社</label>
-          <input type="text" name="contractor">
+          <label class="required" for="applicantName">申請者名</label>
+          <input type="text" id="applicantName" name="applicantName" data-label="申請者名" required>
         </div>
-
         <div class="form-group">
-          <label class="required">連絡先電話番号</label>
-          <input type="tel" name="tel" required>
+          <label class="required" for="email">メールアドレス</label>
+          <input type="email" id="email" name="email" data-label="メールアドレス" required>
         </div>
       </div>
 
-      <div class="grid">
-        <div class="form-group">
-          <label class="required">承認者（リーダ）</label>
-          <input type="text" name="approverLeader" required>
-        </div>
 
-        <div class="form-group">
-          <label class="required">承認者（幹部）</label>
-          <input type="text" name="approverManager" required>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>連絡事項</label>
-        <textarea name="notes"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>添付ファイル名</label>
-        <input type="text" name="fileName" value="なし">
-      </div>
-
-      <div class="btn-area">
-        <button type="button" class="btn btn-next" onclick="toConfirmMode()">入力内容を確認する</button>
-        <button type="submit" class="btn btn-submit">確定して申請</button>
-      </div>
-
-    </form>
+  <div class="grid">
+    <div class="form-group">
+      <label class="required" for="department">所属部署名</label>
+      <input type="text" id="department" name="department" data-label="所属部署名" required>
+    </div>
+    <div class="form-group">
+      <label class="required" for="category">申請区分</label>
+      <select id="category" name="category" data-label="申請区分" required>
+        <option value="">選択してください</option>
+        <option value="1">新規案件</option>
+        <option value="2">変更申請</option>
+        <option value="3">費用精算</option>
+      </select>
+    </div>
   </div>
 
+  <div class="form-group">
+    <label class="required" for="projectName">プロジェクト名</label>
+    <input type="text" id="projectName" name="projectName" data-label="プロジェクト名" required>
+  </div>
+
+  <div class="grid">
+    <div class="form-group">
+      <label for="contractor">一次請負会社</label>
+      <input type="text" id="contractor" name="contractor" data-label="一次請負会社">
+    </div>
+    <div class="form-group">
+      <label class="required" for="tel">連絡先電話番号</label>
+      <input type="tel" id="tel" name="tel" data-label="連絡先電話番号" required>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="form-group">
+      <label class="required" for="approverLeader">承認者（リーダ）</label>
+      <input type="text" id="approverLeader" name="approverLeader" data-label="承認者（リーダ）" required>
+    </div>
+    <div class="form-group">
+      <label class="required" for="approverManager">承認者（幹部）</label>
+      <input type="text" id="approverManager" name="approverManager" data-label="承認者（幹部）" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="notes">連絡事項</label>
+    <textarea id="notes" name="notes" rows="4" data-label="連絡事項"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="fileInput">添付ファイル</label>
+    <input type="file" id="fileInput">
+  </div>
+
+  <input type="hidden" name="fileName" id="fileNameInput" value="なし">
+
+  <div class="btn-area">
+    <button type="button" class="btn btn-next" onclick="toConfirmMode()">入力内容を確認する</button>
+    <button type="submit" class="btn btn-submit">確定して申請</button>
+  </div>
+</form>
+
+
+  </div>
+
+  <!-- 確認画面 -->
+
+  <div id="confirmSection">
+    <h1>申請内容の最終確認</h1>
+    <div id="confirmDataDisplay"></div>
+    <div class="btn-area">
+      <button type="button" class="btn btn-edit" onclick="toInputMode()">← 修正する</button>
+      <button type="submit" form="mainForm" class="btn btn-submit">確定して申請</button>
+    </div>
+  </div>
 </div>
 
 <script>
-
-// 日時表示
 window.addEventListener("load", () => {
-  document.getElementById("datePreview").value = new Date().toLocaleString();
+  const now = new Date();
+  document.getElementById("datePreview").value =
+    now.toLocaleString();
 });
-
-// 確認画面
 function toConfirmMode() {
   const form = document.getElementById('mainForm');
-
   if (!form.reportValidity()) return;
 
+  const fileInput = document.getElementById('fileInput');
+  document.getElementById('fileNameInput').value =
+    fileInput.files.length > 0 ? fileInput.files[0].name : 'なし';
+
+  const displayArea = document.getElementById('confirmDataDisplay');
   const elements = form.querySelectorAll('input, select, textarea');
 
   let html = '<table class="confirm-table">';
-
   elements.forEach(el => {
+    if (el.type === 'file') return;
+
     const label = el.getAttribute('data-label') || el.name;
     const value = el.value || 'なし';
     html += `<tr><th>${label}</th><td>${value.replace(/\n/g,'<br>')}</td></tr>`;
   });
 
   html += '</table>';
-
-  // ★ここも存在チェック入れる（安全化）
-  const displayArea = document.getElementById('confirmDataDisplay');
-  if (!displayArea) {
-    console.error("confirmDataDisplay が存在しない");
-    return;
-  }
-
   displayArea.innerHTML = html;
 
   document.getElementById('inputSection').style.display = 'none';
-
-  const confirmSection = document.getElementById('confirmSection');
-  if (confirmSection) {
-    confirmSection.style.display = 'block';
-  } else {
-    console.error("confirmSection が存在しない");
-  }
+  document.getElementById('confirmSection').style.display = 'block';
+  window.scrollTo(0,0);
 }
 
-// 戻る
 function toInputMode() {
   document.getElementById('confirmSection').style.display = 'none';
   document.getElementById('inputSection').style.display = 'block';
+  window.scrollTo(0,0);
 }
 
-// ===================================================
-// 🚀 ⑦ 最終版（実務デバッグ完全版）
-// ===================================================
+// Logic AppへPOST送信
 document.getElementById("mainForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -191,13 +184,8 @@ document.getElementById("mainForm").addEventListener("submit", async function(e)
     data[key] = value;
   });
 
-  const url = "https://prod-00.northcentralus.logic.azure.com/workflows/905d604fdd334accb3602a9161315372/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=FNcE-ewZws-Dh6opG7bRRd8FF1yi2YiwQNMxQxtJYT8";
-
   try {
-
-    console.log("=== SEND DATA ===", data);
-
-    const res = await fetch(url, {
+    const res = await fetch("https://prod-00.northcentralus.logic.azure.com:443/workflows/905d604fdd334accb3602a9161315372/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=FNcE-ewZws-Dh6opG7bRRd8FF1yi2YiwQNMxQxtJYT8", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -205,41 +193,16 @@ document.getElementById("mainForm").addEventListener("submit", async function(e)
       body: JSON.stringify(data)
     });
 
-    console.log("=== HTTP STATUS ===", res.status);
-    console.log("OK:", res.ok);
-
-    console.log("=== HEADERS ===");
-    for (const [k, v] of res.headers.entries()) {
-      console.log(k + ":", v);
-    }
-
-    const raw = await res.text();
-    console.log("=== RAW RESPONSE ===", raw);
-
-    let result;
-
-    try {
-      result = JSON.parse(raw);
-      console.log("=== PARSED RESULT ===", result);
-    } catch (err) {
-      console.error("JSON PARSE ERROR:", err);
-      window.location.href = "result.html?status=error";
-      return;
-    }
-
-    if (result?.status === "success") {
-      window.location.href = "result.html?status=success";
+    if (res.ok) {
+      window.location.href = "result.html";
     } else {
-      window.location.href = "result.html?status=error";
+      alert("申請エラー");
     }
-
   } catch (err) {
-    console.error("FETCH ERROR:", err);
-    window.location.href = "result.html?status=error";
+    console.error(err);
+    alert("通信エラー");
   }
-
 });
-
 </script>
 
 </body>
