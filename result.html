@@ -1,47 +1,57 @@
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>申請完了</title>
+<title>申請結果</title>
 <style>
 body {
-  margin: 0;
   font-family: "Segoe UI", "Meiryo", sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   background-color: #f3f2f1;
+  padding: 40px;
+  text-align: center;
 }
-
+.container {
+  background: #fff;
+  padding: 40px;
+  border-radius: 4px;
+  max-width: 600px;
+  margin: auto;
+}
 h1 {
-font-size: 2rem;
-margin-bottom: 40px;
+  margin-bottom: 30px;
 }
-
 .btn {
-padding: 15px 30px;
-font-size: 1rem;
-border: none;
-background-color: #0078d4;
-color: white;
-cursor: pointer;
-border-radius: 4px;
+  padding: 12px 30px;
+  background-color: #0078d4;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  display: inline-block;
 }
-
-.btn:hover {
-opacity: 0.8;
-} </style>
-
+</style>
 </head>
 <body>
 
-<h1>申請しました</h1>
+<div class="container">
+  <h1 id="message"></h1>
 
-<button class="btn" onclick="location.href='https://happy-sky-0167e2700.7.azurestaticapps.net/shinsei.html'">
-  ワークフロー申請（入力）へ戻る
-</button>
+  <a class="btn" href="https://happy-sky-0167e2700.7.azurestaticapps.net/shinsei.html">
+    ワークフロー申請（入力）へ戻る
+  </a>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const status = params.get("status");
+
+const message = document.getElementById("message");
+
+if (status === "success") {
+  message.textContent = "申請処理が正常終了しました";
+} else {
+  message.textContent = "申請処理が異常終了しました";
+}
+</script>
 
 </body>
 </html>
