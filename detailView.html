@@ -1,0 +1,53 @@
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>詳細画面</title>
+</head>
+
+<body>
+
+<h1>申請詳細</h1>
+
+<div id="detail"></div>
+
+<script>
+function getQueryParam(name) {
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
+
+async function loadDetail() {
+  const no = getQueryParam("no");
+
+  const res = await fetch("★同じLogicAppのURL", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({})
+  });
+
+  const data = await res.json();
+
+  const item = data.find(x => x.SHINSEIBANGOU === no);
+
+  if (!item) {
+    document.getElementById("detail").innerHTML = "データなし";
+    return;
+  }
+
+  document.getElementById("detail").innerHTML = `
+    <p>申請番号：${item.SHINSEIBANGOU}</p>
+    <p>申請者名：${item.SHINSEISYAMEI}</p>
+    <p>メール：${item.MAILADDRESS}</p>
+    <p>部署：${item.BUSHOMEI}</p>
+    <p>プロジェクト：${item.PROJECT}</p>
+    <p>連絡事項：${item.RENRAKUJIKOU}</p>
+  `;
+}
+
+loadDetail();
+</script>
+
+</body>
+</html>
