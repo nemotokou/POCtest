@@ -3,6 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>申請データ一覧</title>
+
 <style>
 body {
   font-family: "Segoe UI", "Meiryo", sans-serif;
@@ -11,45 +12,58 @@ body {
 }
 
 .container {
-max-width: 1000px;
-margin: auto;
-background: #fff;
-padding: 20px;
+  max-width: 1400px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
 }
 
 h1 {
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 table {
-width: 100%;
-border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
 }
 
 th, td {
-border: 1px solid #ccc;
-padding: 10px;
-text-align: left;
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
 }
 
 th {
-background-color: #0078d4;
-color: white;
-} </style>
-
+  background-color: #0078d4;
+  color: white;
+}
+</style>
 </head>
+
 <body>
 
 <div class="container">
   <h1>申請データ一覧</h1>
+
   <table id="dataTable">
     <thead>
       <tr>
+        <th>申請番号</th>
         <th>申請者名</th>
         <th>メール</th>
         <th>部署</th>
         <th>区分</th>
         <th>プロジェクト</th>
+        <th>一次請負</th>
+        <th>電話番号</th>
+        <th>承認者(リーダ)</th>
+        <th>承認者(幹部)</th>
+        <th>連絡事項</th>
+        <th>添付ファイル</th>
+        <th>状態</th>
+        <th>申請日時</th>
+        <th>更新日時</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -57,6 +71,21 @@ color: white;
 </div>
 
 <script>
+
+function formatDate(dt) {
+  if (!dt) return "";
+  return new Date(dt).toLocaleString();
+}
+
+function convertKubun(k) {
+  switch (Number(k)) {
+    case 1: return "新規案件";
+    case 2: return "変更申請";
+    case 3: return "費用精算";
+    default: return k;
+  }
+}
+
 async function loadData() {
   try {
     const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0", {
@@ -75,11 +104,21 @@ async function loadData() {
     data.forEach(item => {
       tbody.innerHTML += `
         <tr>
+          <td>${item.SHINSEIBANGOU || ""}</td>
           <td>${item.SHINSEISYAMEI || ""}</td>
           <td>${item.MAILADDRESS || ""}</td>
           <td>${item.BUSHOMEI || ""}</td>
-          <td>${item.KUBUN || ""}</td>
+          <td>${convertKubun(item.KUBUN)}</td>
           <td>${item.PROJECT || ""}</td>
+          <td>${item.ICHIJIUKE || ""}</td>
+          <td>${item.RENRAKUSAKI || ""}</td>
+          <td>${item.SYOUNINLEADER || ""}</td>
+          <td>${item.SYOUNINKANBU || ""}</td>
+          <td>${item.RENRAKUJIKOU || ""}</td>
+          <td>${item.TEMPFILE || ""}</td>
+          <td>${item.JOKYOFLAG || ""}</td>
+          <td>${formatDate(item.SINSEINICHIJI)}</td>
+          <td>${formatDate(item.KOUSHINNICHIJI)}</td>
         </tr>
       `;
     });
@@ -91,6 +130,7 @@ async function loadData() {
 }
 
 loadData();
+
 </script>
 
 </body>
