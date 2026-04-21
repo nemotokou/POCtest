@@ -33,6 +33,18 @@ input, select, textarea { width: 100%; padding: 10px; border: 1px solid #8a8886;
   <div id="inputSection">
     <h1>ワークフロー申請（入力）</h1>
     <form id="mainForm">
+
+    <div class="grid">
+      <div class="form-group">
+        <label>申請番号（自動採番）</label>
+        <input type="text" id="shinseiNoPreview" disabled value="自動採番されます">
+      </div>
+      <div class="form-group">
+        <label>申請日時（自動入力）</label>
+        <input type="text" id="datePreview" disabled>
+      </div>
+    </div>
+
       <div class="grid">
         <div class="form-group">
           <label class="required" for="applicantName">申請者名</label>
@@ -122,6 +134,11 @@ input, select, textarea { width: 100%; padding: 10px; border: 1px solid #8a8886;
 </div>
 
 <script>
+window.addEventListener("load", () => {
+  const now = new Date();
+  document.getElementById("datePreview").value =
+    now.toLocaleString();
+});
 function toConfirmMode() {
   const form = document.getElementById('mainForm');
   if (!form.reportValidity()) return;
