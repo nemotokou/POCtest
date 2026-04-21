@@ -86,6 +86,20 @@ function convertKubun(k) {
   }
 }
 
+function convertJokyoFlag(j) {
+  switch (Number(j)) {
+    case 1: return "新規申請（リーダー承認待ち）";
+    case 2: return "リーダー差戻し";
+    case 3: return "リーダー承認済み（管理者承認待ち）";
+    case 4: return "幹部差戻し";
+    case 5: return "幹部承認済み";
+    default: return j;
+  }
+}
+
+
+
+
 async function loadData() {
   try {
     const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0", {
@@ -116,7 +130,7 @@ async function loadData() {
           <td>${item.SYOUNINKANBU || ""}</td>
           <td>${item.RENRAKUJIKOU || ""}</td>
           <td>${item.TEMPFILE || ""}</td>
-          <td>${item.JOKYOFLAG || ""}</td>
+          <td>${convertJokyoFlag(item.JOKYOFLAG)}</td>
           <td>${formatDate(item.SINSEINICHIJI)}</td>
           <td>${formatDate(item.KOUSHINNICHIJI)}</td>
         </tr>
