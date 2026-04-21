@@ -1,52 +1,125 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>詳細画面</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>申請詳細</title>
+
+<style>
+body {
+  font-family: "Segoe UI", "Meiryo", sans-serif;
+  background-color: #f3f2f1;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+.label {
+  font-weight: bold;
+}
+</style>
 </head>
 
 <body>
 
-<h1>申請詳細</h1>
-
-<div id="detail"></div>
+<div class="container">
+  <h1>申請詳細</h1>
+  <div id="detail">読み込み中...</div>
+</div>
 
 <script>
+
 function getQueryParam(name) {
   const url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
 
+function formatDate(dt) {
+  if (!dt) return "";
+  return new Date(dt).toLocaleString();
+}
+
+function convertKubun(k) {
+  switch (Number(k)) {
+    case 1: return "新規案件";
+    case 2: return "変更申請";
+    case 3: return "費用精算";
+    default: return k;
+  }
+}
+
+function convertJokyoFlag(j) {
+  switch (Number(j)) {
+    case 1: return "新規申請（リーダー承認待ち）";
+    case 2: return "リーダー差戻し";
+    case 3: return "リーダー承認済み（管理者承認待ち）";
+    case 4: return "幹部差戻し";
+    case 5: return "幹部承認済み";
+    default: return j;
+  }
+}
+
 async function loadDetail() {
   const no = getQueryParam("no");
 
-  const res = await fetch("https://prod-26.northcentralus.logic.azure.com:443/workflows/5c1a17cbf0ef4a08ac932d27927a6bfe/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=1M3hseANxNZlYCU6Etauj81tPTNGL0hRVm1eBkM9rm0", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({})
-  });
-
-  const data = await res.json();
-
-  const item = data.find(x => x.SHINSEIBANGOU === no);
-
-  if (!item) {
-    document.getElementById("detail").innerHTML = "データなし";
+  if (!no) {
+    document.getElementById("detail").innerHTML = "申請番号がないよ〜";
     return;
   }
 
-  document.getElementById("detail").innerHTML = `
-    <p>申請番号：${item.SHINSEIBANGOU}</p>
-    <p>申請者名：${item.SHINSEISYAMEI}</p>
-    <p>メール：${item.MAILADDRESS}</p>
-    <p>部署：${item.BUSHOMEI}</p>
-    <p>プロジェクト：${item.PROJECT}</p>
-    <p>連絡事項：${item.RENRAKUJIKOU}</p>
-  `;
+  try {
+    const res = await fetch("★LogicAppのURL（1件取得版）", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ no: no })
+    });
+
+    const item = await res.json();
+
+    if (!item) {
+      document.getElementById("detail").innerHTML = "データが見つからないよ〜";
+      return;
+    }
+
+    document.getElementById("detail").innerHTML = `
+      <div class="item"><span class="label">申請番号：</span>${item.SHINSEIBANGOU}</div>
+      <div class="item"><span class="label">申請者名：</span>${item.SHINSEISYAMEI}</div>
+      <div class="item"><span class="label">メール：</span>${item.MAILADDRESS}</div>
+      <div class="item"><span class="label">部署：</span>${item.BUSHOMEI}</div>
+      <div class="item"><span class="label">区分：</span>${convertKubun(item.KUBUN)}</div>
+      <div class="item"><span class="label">プロジェクト：</span>${item.PROJECT}</div>
+      <div class="item"><span class="label">一次請負：</span>${item.ICHIJIUKE}</div>
+      <div class="item"><span class="label">電話番号：</span>${item.RENRAKUSAKI}</div>
+      <div class="item"><span class="label">承認者(リーダー)：</span>${item.SYOUNINLEADER}</div>
+      <div class="item"><span class="label">承認者(幹部)：</span>${item.SYOUNINKANBU}</div>
+      <div class="item"><span class="label">連絡事項：</span>${item.RENRAKUJIKOU || ""}</div>
+      <div class="item"><span class="label">添付ファイル：</span>${item.TEMPFILE || ""}</div>
+      <div class="item"><span class="label">状態：</span>${convertJokyoFlag(item.JOKYOFLAG)}</div>
+      <div class="item"><span class="label">申請日時：</span>${formatDate(item.SINSEINICHIJI)}</div>
+      <div class="item"><span class="label">更新日時：</span>${formatDate(item.KOUSHINNICHIJI)}</div>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("detail").innerHTML = "エラーだよ〜";
+  }
 }
 
 loadDetail();
+
 </script>
 
 </body>
