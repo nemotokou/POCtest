@@ -140,33 +140,65 @@ window.addEventListener("load", () => {
   document.getElementById("datePreview").value =
     now.toLocaleString();
 });
+
+
 function toConfirmMode() {
   const form = document.getElementById('mainForm');
   if (!form.reportValidity()) return;
 
+  // ファイル名セット
   const fileInput = document.getElementById('fileInput');
   document.getElementById('fileNameInput').value =
     fileInput.files.length > 0 ? fileInput.files[0].name : 'なし';
 
   const displayArea = document.getElementById('confirmDataDisplay');
-  const elements = form.querySelectorAll('input, select, textarea');
+
+  // 表示対象だけ定義
+  const displayFields = [
+    { label: "申請者名", key: "applicantName" },
+    { label: "メールアドレス", key: "email" },
+    { label: "所属部署名", key: "department" },
+    { label: "申請区分", key: "category", isSelect: true },
+    { label: "プロジェクト名", key: "projectName" },
+    { label: "一次請負会社", key: "contractor" },
+    { label: "連絡先電話番号", key: "tel" },
+    { label: "承認者（リーダ）", key: "approverLeader" },
+    { label: "承認者（幹部）", key: "approverManager" },
+    { label: "連絡事項", key: "notes" },
+    { label: "添付ファイル", key: "fileName" }
+  ];
 
   let html = '<table class="confirm-table">';
-  elements.forEach(el => {
-    if (el.type === 'file') return;
 
-    const label = el.getAttribute('data-label') || el.name;
-    const value = el.value || 'なし';
-    html += `<tr><th>${label}</th><td>${value.replace(/\n/g,'<br>')}</td></tr>`;
+  // ①申請番号（表示のみ）
+  html += `<tr><th>申請番号</th><td>（自動採番）</td></tr>`;
+
+  // ①申請日時
+  html += `<tr><th>申請日時</th><td>${document.getElementById("datePreview").value}</td></tr>`;
+
+  // 各項目
+  displayFields.forEach(field => {
+    let value = form[field.key]?.value || 'なし';
+
+    // ② selectは表示文字に変換
+    if (field.isSelect) {
+      const select = form[field.key];
+      value = select.options[select.selectedIndex].text;
+    }
+
+    html += `<tr><th>${field.label}</th><td>${value.replace(/\n/g,'<br>')}</td></tr>`;
   });
 
   html += '</table>';
+
   displayArea.innerHTML = html;
 
+  // 画面切替
   document.getElementById('inputSection').style.display = 'none';
   document.getElementById('confirmSection').style.display = 'block';
   window.scrollTo(0,0);
 }
+
 
 function toInputMode() {
   document.getElementById('confirmSection').style.display = 'none';
