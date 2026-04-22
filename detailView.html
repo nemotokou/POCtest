@@ -223,8 +223,6 @@ async function loadDetail() {
   }
 }
 
-loadDetail();
-
 // ★ステータス描画
 let step1 = "";
 let step2 = "② 承認待ち";
@@ -282,6 +280,8 @@ document.getElementById("statusArea").innerHTML = `
     </div>
   </div>
 `;
+
+loadDetail();
 
 </script>
 
