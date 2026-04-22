@@ -263,12 +263,12 @@ async function sendUpdate(addValue) {
       })
     });
 
-    alert("更新したよ〜♡");
+    alert("承認しました");
     location.reload();
 
   } catch (e) {
     console.error(e);
-    alert("更新エラーだよ〜");
+    alert("承認エラー");
   }
 }
 
@@ -307,7 +307,7 @@ async function loadDetail() {
   const no = getQueryParam("no");
 
   if (!no) {
-    document.getElementById("detail").innerHTML = "申請番号がないよ～";
+    document.getElementById("detail").innerHTML = "申請番号エラー";
     return;
   }
 
@@ -324,7 +324,7 @@ async function loadDetail() {
     const item = data[0];
 
     if (!item) {
-      document.getElementById("detail").innerHTML = "データが見つからないよ～";
+      document.getElementById("detail").innerHTML = "申請情報が見つかりません";
       return;
     }
 
@@ -416,7 +416,7 @@ if (item.JOKYOFLAG == 5) {
 
   } catch (err) {
     console.error(err);
-    document.getElementById("detail").innerHTML = "エラーだよ～";
+    document.getElementById("detail").innerHTML = "申請情報更新エラー";
   }
 }
 
