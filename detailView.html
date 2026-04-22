@@ -34,6 +34,45 @@ h1 {
   margin-bottom: 25px; 
 }
 
+/* 進捗表示 */
+.status-box {
+  margin-bottom: 25px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  background: #faf9f8;
+}
+
+.status-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.status-steps {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.step {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.step.active {
+  background: #0078d4;
+  color: #fff;
+  border: none;
+}
+
+.step.reject {
+  background: #d13438;
+  color: #fff;
+  border: none;
+}
+
 /* 🔥 ここが重要：shinseiのconfirm-table風に統一 */
 .detail-table {
   width: 100%;
@@ -91,6 +130,8 @@ h1 {
 
 <div class="container">
   <h1>申請詳細</h1>
+
+  <div id="statusArea"></div>
 
   <div id="detail">読み込み中...</div>
 
@@ -183,6 +224,64 @@ async function loadDetail() {
 }
 
 loadDetail();
+
+// ★ステータス描画
+let step1 = "";
+let step2 = "② 承認待ち";
+let step3 = "③ 承認待ち";
+let step4 = "④ 完了";
+
+let class1 = "step";
+let class2 = "step";
+let class3 = "step";
+let class4 = "step";
+
+switch (Number(item.JOKYOFLAG)) {
+  case 1:
+    class1 += " active";
+    break;
+
+  case 2:
+    class1 += " active";
+    class2 += " reject";
+    step2 = "② リーダー差戻し";
+    break;
+
+  case 3:
+    class1 += " active";
+    class2 += " active";
+    step2 = "② リーダー承認済み";
+    break;
+
+  case 4:
+    class1 += " active";
+    class2 += " active";
+    step2 = "② リーダー承認済み";
+    class3 += " reject";
+    step3 = "③ 幹部差戻し";
+    break;
+
+  case 5:
+    class1 += " active";
+    class2 += " active";
+    step2 = "② リーダー承認済み";
+    class3 += " active";
+    step3 = "③ 幹部承認済み";
+    class4 += " active";
+    break;
+}
+
+document.getElementById("statusArea").innerHTML = `
+  <div class="status-box">
+    <div class="status-title">申請番号：${item.SHINSEIBANGOU}</div>
+    <div class="status-steps">
+      <div class="${class1}">① 申請</div>
+      <div class="${class2}">${step2}</div>
+      <div class="${class3}">${step3}</div>
+      <div class="${class4}">${step4}</div>
+    </div>
+  </div>
+`;
 
 </script>
 
