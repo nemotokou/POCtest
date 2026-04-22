@@ -221,65 +221,66 @@ async function loadDetail() {
     console.error(err);
     document.getElementById("detail").innerHTML = "エラーだよ〜";
   }
-}
 
-// ★ステータス描画
-let step1 = "";
-let step2 = "② 承認待ち";
-let step3 = "③ 承認待ち";
-let step4 = "④ 完了";
 
-let class1 = "step";
-let class2 = "step";
-let class3 = "step";
-let class4 = "step";
+  // ★ステータス描画
+  let step1 = "";
+  let step2 = "② 承認待ち";
+  let step3 = "③ 承認待ち";
+  let step4 = "④ 完了";
 
-switch (Number(item.JOKYOFLAG)) {
-  case 1:
-    class1 += " active";
-    break;
+  let class1 = "step";
+  let class2 = "step";
+  let class3 = "step";
+  let class4 = "step";
 
-  case 2:
-    class1 += " active";
-    class2 += " reject";
-    step2 = "② リーダー差戻し";
-    break;
+  switch (Number(item.JOKYOFLAG)) {
+    case 1:
+      class1 += " active";
+      break;
 
-  case 3:
-    class1 += " active";
-    class2 += " active";
-    step2 = "② リーダー承認済み";
-    break;
+    case 2:
+      class1 += " active";
+      class2 += " reject";
+      step2 = "② リーダー差戻し";
+      break;
 
-  case 4:
-    class1 += " active";
-    class2 += " active";
-    step2 = "② リーダー承認済み";
-    class3 += " reject";
-    step3 = "③ 幹部差戻し";
-    break;
+    case 3:
+      class1 += " active";
+      class2 += " active";
+      step2 = "② リーダー承認済み";
+      break;
 
-  case 5:
-    class1 += " active";
-    class2 += " active";
-    step2 = "② リーダー承認済み";
-    class3 += " active";
-    step3 = "③ 幹部承認済み";
-    class4 += " active";
-    break;
-}
+    case 4:
+      class1 += " active";
+      class2 += " active";
+      step2 = "② リーダー承認済み";
+      class3 += " reject";
+      step3 = "③ 幹部差戻し";
+      break;
 
-document.getElementById("statusArea").innerHTML = `
-  <div class="status-box">
-    <div class="status-title">申請番号：${item.SHINSEIBANGOU}</div>
-    <div class="status-steps">
-      <div class="${class1}">① 申請</div>
-      <div class="${class2}">${step2}</div>
-      <div class="${class3}">${step3}</div>
-      <div class="${class4}">${step4}</div>
+    case 5:
+      class1 += " active";
+      class2 += " active";
+      step2 = "② リーダー承認済み";
+      class3 += " active";
+      step3 = "③ 幹部承認済み";
+      class4 += " active";
+      break;
+  }
+
+  document.getElementById("statusArea").innerHTML = `
+    <div class="status-box">
+      <div class="status-title">申請番号：${item.SHINSEIBANGOU}</div>
+      <div class="status-steps">
+        <div class="${class1}">① 申請</div>
+        <div class="${class2}">${step2}</div>
+        <div class="${class3}">${step3}</div>
+        <div class="${class4}">${step4}</div>
+      </div>
     </div>
-  </div>
-`;
+  `;
+}
 
 loadDetail();
 
