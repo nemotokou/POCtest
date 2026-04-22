@@ -73,7 +73,7 @@ h1 {
   border: none;
 }
 
-/* 🔥 ここが重要：shinseiのconfirm-table風に統一 */
+/* shinseiのconfirm-table風に統一 */
 .detail-table {
   width: 100%;
   border-collapse: collapse;
@@ -165,7 +165,7 @@ function convertJokyoFlag(j) {
   switch (Number(j)) {
     case 1: return "新規申請（リーダー承認待ち）";
     case 2: return "リーダー差戻し";
-    case 3: return "リーダー承認済み（管理者承認待ち）";
+    case 3: return "リーダー承認済み（幹部承認待ち）";
     case 4: return "幹部差戻し";
     case 5: return "幹部承認済み";
     default: return j;
@@ -176,7 +176,7 @@ async function loadDetail() {
   const no = getQueryParam("no");
 
   if (!no) {
-    document.getElementById("detail").innerHTML = "申請番号がないよ〜";
+    document.getElementById("detail").innerHTML = "申請番号がないよ～";
     return;
   }
 
@@ -193,7 +193,7 @@ async function loadDetail() {
     const item = data[0];
 
     if (!item) {
-      document.getElementById("detail").innerHTML = "データが見つからないよ〜";
+      document.getElementById("detail").innerHTML = "データが見つからないよ～";
       return;
     }
 
@@ -278,7 +278,7 @@ async function loadDetail() {
 
   } catch (err) {
     console.error(err);
-    document.getElementById("detail").innerHTML = "エラーだよ〜";
+    document.getElementById("detail").innerHTML = "エラーだよ～";
   }
 }
 
