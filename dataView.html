@@ -51,16 +51,16 @@ th {
       <tr>
         <th>申請番号</th>
         <th>申請者名</th>
-        <th>メール</th>
+<!--    <th>メール</th> -->
         <th>部署</th>
         <th>区分</th>
         <th>プロジェクト</th>
-        <th>一次請負</th>
-        <th>電話番号</th>
+<!--    <th>一次請負</th> -->
+<!--    <th>電話番号</th> -->
         <th>承認者(リーダ)</th>
         <th>承認者(幹部)</th>
-        <th>連絡事項</th>
-        <th>添付ファイル</th>
+<!--    <th>連絡事項</th> -->
+<!--    <th>添付ファイル</th> -->
         <th>状態</th>
         <th>申請日時</th>
         <th>更新日時</th>
@@ -123,16 +123,16 @@ async function loadData() {
         <tr>
           <td>${item.SHINSEIBANGOU || ""}</td>
           <td>${item.SHINSEISYAMEI || ""}</td>
-          <td>${item.MAILADDRESS || ""}</td>
+<!--      <td>${item.MAILADDRESS || ""}</td> -->
           <td>${item.BUSHOMEI || ""}</td>
           <td>${convertKubun(item.KUBUN)}</td>
           <td>${item.PROJECT || ""}</td>
-          <td>${item.ICHIJIUKE || ""}</td>
-          <td>${item.RENRAKUSAKI || ""}</td>
+<!--      <td>${item.ICHIJIUKE || ""}</td> -->
+<!--      <td>${item.RENRAKUSAKI || ""}</td> -->
           <td>${item.SYOUNINLEADER || ""}</td>
           <td>${item.SYOUNINKANBU || ""}</td>
-          <td>${item.RENRAKUJIKOU || ""}</td>
-          <td>${item.TEMPFILE || ""}</td>
+<!--      <td>${item.RENRAKUJIKOU || ""}</td> -->
+<!--      <td>${item.TEMPFILE || ""}</td> -->
           <td>${convertJokyoFlag(item.JOKYOFLAG)}</td>
           <td>${formatDate(item.SINSEINICHIJI)}</td>
           <td>${formatDate(item.KOUSHINNICHIJI)}</td>
