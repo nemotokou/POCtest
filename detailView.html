@@ -35,7 +35,6 @@ h1 {
 }
 
 /* 進捗表示 */
-<!--
 .status-box {
   margin-bottom: 25px;
   padding: 15px;
@@ -53,28 +52,6 @@ h1 {
   align-items: center;
   gap: 10px;
 }
-
-.step {
-  padding: 8px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  border: 1px solid #ccc;
-  background: #fff;
-}
-
-.step.active {
-  background: #0078d4;
-  color: #fff;
-  border: none;
-}
-
-.step.reject {
-  background: #d13438;
-  color: #fff;
-  border: none;
-}
--->
-
 
 .progress-track {
   display: flex;
@@ -94,14 +71,16 @@ h1 {
   z-index: 1;
 }
 
+
 .step {
   position: relative;
   z-index: 2;
   text-align: center;
   width: 25%;
-  background: transparent;
+  background: none;
   border: none;
 }
+
 
 .step-icon {
   width: 30px;
@@ -131,11 +110,26 @@ h1 {
   content: '✔';
 }
 
+.step.reject .step-icon {
+  background: #d13438;
+  color: white;
+  border-color: #d13438;
+}
+
+
+/*
 .step-label {
   font-size: 0.8rem;
   font-weight: bold;
   color: #605e5c;
 }
+*/
+
+.step-label {
+  margin-top: 0;
+  font-size: 0.9rem;
+}
+
 
 /* shinseiのconfirm-table風に統一 */
 .detail-table {
@@ -301,9 +295,27 @@ switch (Number(item.JOKYOFLAG)) {
 for (let i = 1; i <= 4; i++) {
   const el = document.getElementById(`step${i}`);
 
+  // 初期化
+  el.classList.remove("active", "complete", "reject");
+
+  const flag = Number(item.JOKYOFLAG);
+
+  // 差戻しは特別扱い
+  if (flag == 2 && i == 2) {
+    el.classList.add("reject");
+    break;
+  }
+  if (flag == 4 && i == 3) {
+    el.classList.add("reject");
+    break;
+  }
+
+  // 通過済み
   if (i < currentStep) {
     el.classList.add("complete");
-  } else if (i === currentStep) {
+  }
+  // 現在
+  else if (i === currentStep) {
     el.classList.add("active");
   }
 }
