@@ -197,32 +197,6 @@ async function loadDetail() {
       return;
     }
 
-    document.getElementById("detail").innerHTML = `
-      <table class="detail-table">
-        <tr><th>申請番号</th><td>${item.SHINSEIBANGOU}</td></tr>
-        <tr><th>申請者名</th><td>${item.SHINSEISYAMEI}</td></tr>
-        <tr><th>メール</th><td>${item.MAILADDRESS}</td></tr>
-        <tr><th>部署</th><td>${item.BUSHOMEI}</td></tr>
-        <tr><th>区分</th><td>${convertKubun(item.KUBUN)}</td></tr>
-        <tr><th>プロジェクト</th><td>${item.PROJECT}</td></tr>
-        <tr><th>一次請負</th><td>${item.ICHIJIUKE || ""}</td></tr>
-        <tr><th>電話番号</th><td>${item.RENRAKUSAKI}</td></tr>
-        <tr><th>承認者(リーダー)</th><td>${item.SYOUNINLEADER}</td></tr>
-        <tr><th>承認者(幹部)</th><td>${item.SYOUNINKANBU}</td></tr>
-        <tr><th>連絡事項</th><td>${item.RENRAKUJIKOU || ""}</td></tr>
-        <tr><th>添付ファイル</th><td>${item.TEMPFILE || ""}</td></tr>
-        <tr><th>状態</th><td>${convertJokyoFlag(item.JOKYOFLAG)}</td></tr>
-        <tr><th>申請日時</th><td>${formatDate(item.SINSEINICHIJI)}</td></tr>
-        <tr><th>更新日時</th><td>${formatDate(item.KOUSHINNICHIJI)}</td></tr>
-      </table>
-    `;
-
-  } catch (err) {
-    console.error(err);
-    document.getElementById("detail").innerHTML = "エラーだよ〜";
-  }
-
-
   // ★ステータス描画
   let step1 = "";
   let step2 = "② 承認待ち";
@@ -280,6 +254,32 @@ async function loadDetail() {
       </div>
     </div>
   `;
+
+
+    document.getElementById("detail").innerHTML = `
+      <table class="detail-table">
+        <tr><th>申請番号</th><td>${item.SHINSEIBANGOU}</td></tr>
+        <tr><th>申請者名</th><td>${item.SHINSEISYAMEI}</td></tr>
+        <tr><th>メール</th><td>${item.MAILADDRESS}</td></tr>
+        <tr><th>部署</th><td>${item.BUSHOMEI}</td></tr>
+        <tr><th>区分</th><td>${convertKubun(item.KUBUN)}</td></tr>
+        <tr><th>プロジェクト</th><td>${item.PROJECT}</td></tr>
+        <tr><th>一次請負</th><td>${item.ICHIJIUKE || ""}</td></tr>
+        <tr><th>電話番号</th><td>${item.RENRAKUSAKI}</td></tr>
+        <tr><th>承認者(リーダー)</th><td>${item.SYOUNINLEADER}</td></tr>
+        <tr><th>承認者(幹部)</th><td>${item.SYOUNINKANBU}</td></tr>
+        <tr><th>連絡事項</th><td>${item.RENRAKUJIKOU || ""}</td></tr>
+        <tr><th>添付ファイル</th><td>${item.TEMPFILE || ""}</td></tr>
+        <tr><th>状態</th><td>${convertJokyoFlag(item.JOKYOFLAG)}</td></tr>
+        <tr><th>申請日時</th><td>${formatDate(item.SINSEINICHIJI)}</td></tr>
+        <tr><th>更新日時</th><td>${formatDate(item.KOUSHINNICHIJI)}</td></tr>
+      </table>
+    `;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("detail").innerHTML = "エラーだよ〜";
+  }
 }
 
 loadDetail();
