@@ -73,6 +73,65 @@ h1 {
   border: none;
 }
 
+.progress-track {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.progress-track::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #c8c6c4;
+  z-index: 1;
+}
+
+.step {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 25%;
+}
+
+.step-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #c8c6c4;
+  margin: 0 auto 10px;
+  line-height: 30px;
+  font-weight: bold;
+  color: #8a8886;
+}
+
+.step.active .step-icon {
+  background: #0078d4;
+  color: white;
+  border-color: #0078d4;
+}
+
+.step.complete .step-icon {
+  background: #107c10;
+  color: white;
+  border-color: #107c10;
+}
+
+.step.complete .step-icon::after {
+  content: '✔';
+}
+
+.step-label {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #605e5c;
+}
+
 /* shinseiのconfirm-table風に統一 */
 .detail-table {
   width: 100%;
@@ -131,7 +190,28 @@ h1 {
 <div class="container">
   <h1>申請詳細</h1>
 
-  <div id="statusArea"></div>
+<div id="statusArea">
+  <p>申請番号：<span id="displayId">読み込み中...</span></p>
+
+  <div class="progress-track">
+    <div id="step1" class="step">
+      <div class="step-icon">1</div>
+      <div class="step-label">申請済み</div>
+    </div>
+    <div id="step2" class="step">
+      <div class="step-icon">2</div>
+      <div class="step-label">リーダ承認待ち</div>
+    </div>
+    <div id="step3" class="step">
+      <div class="step-icon">3</div>
+      <div class="step-label">幹部承認待ち</div>
+    </div>
+    <div id="step4" class="step">
+      <div class="step-icon">4</div>
+      <div class="step-label">完了</div>
+    </div>
+  </div>
+</div>
 
   <div id="detail">読み込み中...</div>
 
@@ -198,62 +278,44 @@ async function loadDetail() {
     }
 
   // ★ステータス描画
-  let step1 = "";
-  let step2 = "② リーダー承認待ち";
-  let step3 = "③ 幹部承認待ち";
-  let step4 = "④ 完了";
+// ★進捗バー更新
+document.getElementById("displayId").innerText = item.SHINSEIBANGOU;
 
-  let class1 = "step";
-  let class2 = "step";
-  let class3 = "step";
-  let class4 = "step";
+// JOKYOFLAG → ステップ番号に変換
+let currentStep = 1;
 
-  switch (Number(item.JOKYOFLAG)) {
-    case 1:
-      class1 += " active";
-      break;
+switch (Number(item.JOKYOFLAG)) {
+  case 1: currentStep = 2; break; // リーダー待ち
+  case 2: currentStep = 2; break; // 差戻し
+  case 3: currentStep = 3; break;
+  case 4: currentStep = 3; break;
+  case 5: currentStep = 4; break;
+}
 
-    case 2:
-      class1 += " active";
-      class2 += " reject";
-      step2 = "② リーダー差戻し";
-      break;
+// ステップ反映
+for (let i = 1; i <= 4; i++) {
+  const el = document.getElementById(`step${i}`);
 
-    case 3:
-      class1 += " active";
-      class2 += " active";
-      step2 = "② リーダー承認済み";
-      break;
-
-    case 4:
-      class1 += " active";
-      class2 += " active";
-      step2 = "② リーダー承認済み";
-      class3 += " reject";
-      step3 = "③ 幹部差戻し";
-      break;
-
-    case 5:
-      class1 += " active";
-      class2 += " active";
-      step2 = "② リーダー承認済み";
-      class3 += " active";
-      step3 = "③ 幹部承認済み";
-      class4 += " active";
-      break;
+  if (i < currentStep) {
+    el.classList.add("complete");
+  } else if (i === currentStep) {
+    el.classList.add("active");
   }
+}
 
-  document.getElementById("statusArea").innerHTML = `
-    <div class="status-box">
-      <div class="status-title">申請番号：${item.SHINSEIBANGOU}</div>
-      <div class="status-steps">
-        <div class="${class1}">① 申請</div>
-        <div class="${class2}">${step2}</div>
-        <div class="${class3}">${step3}</div>
-        <div class="${class4}">${step4}</div>
-      </div>
-    </div>
-  `;
+// 差戻しのラベル変更
+if (item.JOKYOFLAG == 2) {
+  document.querySelector("#step2 .step-label").innerText = "リーダー差戻し";
+}
+if (item.JOKYOFLAG == 4) {
+  document.querySelector("#step3 .step-label").innerText = "幹部差戻し";
+}
+if (item.JOKYOFLAG >= 3) {
+  document.querySelector("#step2 .step-label").innerText = "リーダー承認済み";
+}
+if (item.JOKYOFLAG == 5) {
+  document.querySelector("#step3 .step-label").innerText = "幹部承認済み";
+}
 
 
     document.getElementById("detail").innerHTML = `
