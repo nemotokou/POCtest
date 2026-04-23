@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>表示用</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 上2・下8 */
+    .top {
+        height: 20%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #f0f0f0;
+    }
+
+    .bottom {
+        height: 80%;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="top">
+    <button onclick="loadPage('https://happy-sky-0167e2700.7.azurestaticapps.net/shinsei.html')">入力画面</button>
+    <button onclick="loadPage('https://happy-sky-0167e2700.7.azurestaticapps.net/dataView.html')">全データ</button>
+    <button onclick="loadPage('https://happy-sky-0167e2700.7.azurestaticapps.net/leaderDataView.html')">リーダ承認</button>
+    <button onclick="loadPage('https://happy-sky-0167e2700.7.azurestaticapps.net/kanbuDataView.html')">幹部承認</button>
+</div>
+
+<div class="bottom">
+    <iframe id="viewer"></iframe>
+</div>
+
+<script>
+function loadPage(url) {
+    document.getElementById('viewer').src = url;
+}
+</script>
+
+</body>
+</html>
